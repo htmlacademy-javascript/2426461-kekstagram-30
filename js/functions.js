@@ -15,7 +15,6 @@ function getNumbers (string) {
   string = string.toString();
   let sumString = '';
   for (let i = 0; i < string.length; ++i) {
-    booleanResult = Number.isNaN(parseInt(string[i], 10));
     if (!Number.isNaN(parseInt(string[i], 10))) {
       sumString += string[i];
     }
