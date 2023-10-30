@@ -11,14 +11,14 @@ const fragment = document.createDocumentFragment();
 // Создаем массив
 const similarPictures = createObject(25);
 // проходим по массиву
-similarPictures.forEach((picture) => {
+similarPictures.forEach(({url, description, likes, comments}) => {
   //клонируем темплейт
   const pictureElement = template.cloneNode(true);
   // вставляем данные в шаблон
-  pictureElement.querySelector('.picture__img').src = picture.url;
-  pictureElement.querySelector('.picture__img').alt = picture.description;
-  pictureElement.querySelector('.picture__comments').textContent = picture.likes;
-  pictureElement.querySelector('.picture__likes').textContent = picture.comments.length;
+  pictureElement.querySelector('.picture__img').src = url;
+  pictureElement.querySelector('.picture__img').alt = description;
+  pictureElement.querySelector('.picture__comments').textContent = likes;
+  pictureElement.querySelector('.picture__likes').textContent = comments.length;
   // добавляем элемент в конец фрагмента
   fragment.appendChild(pictureElement);
 });
