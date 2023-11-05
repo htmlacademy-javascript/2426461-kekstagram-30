@@ -41,7 +41,7 @@ function createComments () {
   for (let i = 0; i < getRandomInteger(1, 30); i++) {
     comment.push({
       id: generateId(),
-      avatar: `img/avatar${getRandomInteger(1, 6)}.svg`,
+      avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
       message: getRandomArrayElement(MESSAGES),
       name: getRandomArrayElement(NAMES)
     });

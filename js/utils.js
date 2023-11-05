@@ -8,5 +8,7 @@ const getRandomInteger = (a, b) => {
 
 //Фукнция получения случайного элемента из массива
 const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
+//Функция событие по клику на Esc
+const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export {getRandomInteger, getRandomArrayElement};
+export {getRandomInteger, getRandomArrayElement, isEscapeKey};
