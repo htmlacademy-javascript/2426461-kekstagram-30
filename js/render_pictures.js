@@ -1,5 +1,5 @@
 
-import {renderBigPicture} from './render_big_pictures.js';
+import { showBigPicture } from './render_big_pictures.js';
 
 // Находим контейнер для изображений
 const container = document.querySelector('.pictures');
@@ -29,7 +29,7 @@ const renderPictureElement = (pictures) => {
     //создаем замыкание
     pictureElement.addEventListener('click', (evt) => {
       evt.preventDefault();//
-      renderBigPicture(picture); // функция для отрисовки фото
+      showBigPicture(picture); // функция для отрисовки фото
     });
     // добавляем элемент в конец фрагмента
     fragment.appendChild(pictureElement);
