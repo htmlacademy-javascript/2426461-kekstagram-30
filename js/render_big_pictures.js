@@ -3,9 +3,6 @@ const COMMENTS_COUNT_SHOWN = 5;
 
 // находим overlay
 const userModalElement = document.querySelector('.big-picture');
-// находим элемент по которому открываем
-const userModalOpenElement = document.querySelector('.pictures');
-// находим элемент по которому закрываем
 const userModalCloseElement = userModalElement.querySelector('.big-picture__cancel');
 const bigPictureImg = document.querySelector('.big-picture__img img');
 const likesCount = document.querySelector('.likes-count');
@@ -97,10 +94,6 @@ function showBigPicture(picture) {
 // закрываем полноэкранное изображение
 userModalCloseElement.addEventListener('click', () => {
   closeUserModal();
-});
-// открываем полноэкранное изображение
-userModalOpenElement.addEventListener('click', () => {
-  openUserModal();
 });
 // событие на клик по кнопке
 commentsLoaderElement.addEventListener('click', onCommentsLoaderClick);
