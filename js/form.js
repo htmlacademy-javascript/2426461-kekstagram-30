@@ -1,5 +1,6 @@
 import { isEscapeKey } from './utils.js';
-
+import { initEffect, resetEffect } from './slider.js';
+import { resetScale } from './scale.js';
 const MAX_HASHTAG_COUNT = 5;
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
 /*регулярное выражение:
@@ -105,6 +106,8 @@ function openImgModal () {
 function closeImgModal () {
   imgUploadForm.reset();//сбрасываем все значения формы
   pristine.reset();//удаляем слушатели Пристин
+  resetEffect(); //
+  resetScale(); //обнуляем Scale
   imgUploadOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
@@ -118,3 +121,4 @@ imgUploadCancel.addEventListener('click', () => {
 imgUploadInput.addEventListener('change', () => {
   onFileInputChange();
 });
+initEffect();
