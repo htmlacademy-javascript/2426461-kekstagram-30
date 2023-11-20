@@ -1,6 +1,9 @@
 import { isEscapeKey } from './utils.js';
 import { initEffect, resetEffect } from './slider.js';
 import { resetScale } from './scale.js';
+import { sendPictures } from './api.js';
+import { showSuccessMessage, showErrorMessage } from './message.js';
+
 const MAX_HASHTAG_COUNT = 5;
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
 /*регулярное выражение:
@@ -14,12 +17,27 @@ const errorText = {
   INVALID_PATTERN: 'Неправильный хэштег'
 };
 
+const SubmitButtonCaption = {
+  SUBMITTING: 'Отправляю...',
+  IDLE: 'Опубликовать',
+};
+
 const imgUploadForm = document.querySelector('.img-upload__form');
 const imgUploadInput = imgUploadForm.querySelector('.img-upload__input');
 const imgUploadOverlay = imgUploadForm.querySelector('.img-upload__overlay');
 const imgUploadCancel = imgUploadForm.querySelector('.img-upload__cancel');
 const hashtagField = imgUploadForm.querySelector('.text__hashtags');
 const commentField = imgUploadForm.querySelector('.text__description');
+const submitButton = imgUploadForm.querySelector('.img-upload__submit');
+
+function toggleSubmitButton (isDisabled) {
+  submitButton.disabled = isDisabled;
+  if (isDisabled) {
+    submitButton.textContent = SubmitButtonCaption.SUBMITTING;
+  } else {
+    SubmitButtonCaption.textContent = SubmitButtonCaption.IDLE;
+  }
+}
 
 const pristine = new Pristine(imgUploadForm, {
   classTo: 'img-upload__field-wrapper',
@@ -74,8 +92,12 @@ const isTextFieldFocused = () =>
   document.activeElement === hashtagField ||
   document.activeElement === commentField;
 
+function isErrorMessageExists() {
+  return Boolean(document.querySelector('.error'));
+}
+
 const onDocumentKeydown = (evt) => {
-  if (isEscapeKey(evt) && !isTextFieldFocused()) {
+  if (evt.key === 'Escape' && !isTextFieldFocused() && !isErrorMessageExists()) {
     evt.preventDefault();
     closeImgModal();
   }
@@ -89,13 +111,26 @@ const onCancelButtonClick = () => {
   closeImgModal ();
 };
 
-imgUploadForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  const isValid = pristine.validate();
-  if (isValid) {
-    imgUploadForm.submit();
+async function sendForm(formElement) {
+  if (! pristine.validate()) {
+    return;
   }
-});
+
+  try {
+    toggleSubmitButton(true);
+    await sendPictures(new FormData(formElement));
+    closeImgModal();
+    showSuccessMessage();
+  } catch {
+    showErrorMessage();
+    toggleSubmitButton(false);
+  }
+}
+
+const onFormSubmit = (evt) => {
+  evt.preventDefault();
+  sendForm(evt.target);
+};
 
 function openImgModal () {
   imgUploadOverlay.classList.remove('hidden');
@@ -121,4 +156,5 @@ imgUploadCancel.addEventListener('click', () => {
 imgUploadInput.addEventListener('change', () => {
   onFileInputChange();
 });
+imgUploadForm.addEventListener('submit', onFormSubmit);
 initEffect();
