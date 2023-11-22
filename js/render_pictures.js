@@ -14,8 +14,8 @@ const createPictureElement = ({ url, description, likes, comments }) => {
   // вставляем данные в шаблон
   pictureElement.querySelector('.picture__img').src = url;
   pictureElement.querySelector('.picture__img').alt = description;
-  pictureElement.querySelector('.picture__comments').textContent = likes;
-  pictureElement.querySelector('.picture__likes').textContent = comments.length;
+  pictureElement.querySelector('.picture__likes').textContent = likes;
+  pictureElement.querySelector('.picture__comments').textContent = comments.length;
 
   return pictureElement;
 };
