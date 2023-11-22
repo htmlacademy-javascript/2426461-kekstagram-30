@@ -1,4 +1,3 @@
-import { isEscapeKey } from './utils.js';
 import { initEffect, resetEffect } from './slider.js';
 import { resetScale } from './scale.js';
 import { sendPictures } from './api.js';
