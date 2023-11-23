@@ -4,6 +4,7 @@ import { sendPictures } from './api.js';
 import { showSuccessMessage, showErrorMessage } from './message.js';
 
 const MAX_HASHTAG_COUNT = 5;
+const FILE_TYPES = ['jpg', 'jped', 'png'];
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
 /*регулярное выражение:
   начинаеется с #,
@@ -28,6 +29,8 @@ const imgUploadCancel = imgUploadForm.querySelector('.img-upload__cancel');
 const hashtagField = imgUploadForm.querySelector('.text__hashtags');
 const commentField = imgUploadForm.querySelector('.text__description');
 const submitButton = imgUploadForm.querySelector('.img-upload__submit');
+const photoPreview = imgUploadForm.querySelector('.img-upload__preview img');
+const effectsPreviews = document.querySelectorAll('.effects__preview');
 
 function toggleSubmitButton (isDisabled) {
   submitButton.disabled = isDisabled;
@@ -48,6 +51,11 @@ const convertTags = function (tagString) {
   return tagString.trim() //удаляем проблемы с начала и с конца
     .split(' ') //создаем массив с разделителем по пробелу
     .filter((tag) => Boolean(tag.length)); //создаем новый массив без лишних пробелов
+};
+
+const isValidType = (file) => {
+  const fileName = file.name.toLowerCase();//приводим к нижнему регистру
+  return FILE_TYPES.some((item) => fileName.endsWith(item));//проверяем что присланный файл заканчивается на нужные символы
 };
 //хэштег соответствует регулярному выражению
 const isTagValid = function (value) {
@@ -103,6 +111,13 @@ const onDocumentKeydown = (evt) => {
 };
 
 const onFileInputChange = () => {
+  const file = imgUploadInput.files[0];
+  if (file && isValidType(file)) {
+    photoPreview.src = URL.createObjectURL(file);
+    effectsPreviews.forEach((preview) => {
+      preview.style.backgroundImage = `url('${photoPreview.src}')`;
+    });
+  }
   openImgModal();
 };
 
