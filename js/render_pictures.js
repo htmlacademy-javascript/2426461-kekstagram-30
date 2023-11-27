@@ -37,4 +37,4 @@ const renderPictureElement = (pictures) => {
   container.appendChild(fragment);
 };
 
-export { renderPictureElement };
+export { renderPictureElement, container };

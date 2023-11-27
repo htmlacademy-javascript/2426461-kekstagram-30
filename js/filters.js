@@ -1,70 +1,67 @@
-import {renderPictureElement} from './render_pictures.js';
-import { debounce } from './utils.js';
+import {renderPictureElement, container} from './render_pictures.js';
+import { debounce, createRandomIdFromRangeGenerator } from './utils.js';
 
-const filtersElement = document.querySelector('.img-filters');
 const filterForm = document.querySelector('.img-filters__form');
-const defaultButton = filterForm.querySelector('#filter-default');
-const randomButton = filterForm.querySelector('#filter-random');
-const discussedButton = filterForm.querySelector('#filter-discussed');
 
-const MAX_RANDOM_FILTER = 10;
+const PICTURE_RANDOM_COUNT = 10;
 
-const Filters = {
-  DEFAULT: 'default',
-  RANDOM: 'random',
-  DISCUSSED: 'discussed',
+//убираем все фото
+const clearPictures = () => {
+  container.querySelectorAll('.picture').forEach((element) => element.remove());
 };
 
-//функция для получения случайного числа
-const getRandomIndex = (min, max) => {
-  return Math.floor(Math.random()*(max - min));
+//делаем фильтры видимыми
+const showFilters = () => {
+  document.querySelector('.img-filters').classList.remove('img-filters--inactive');
 };
 
-const FilterHandlers = {
-  [Filters.DEFAULT]: (data) => {
-    return data;
+//переключаем выделение кнопки, только если клик по кнопке
+const onFilterButtonClick = (evt) => {
+  if (evt.target.classList.contains('img-filters__button')) {
+    document.querySelector('.img-filters__button--active').classList.remove('img-filters__button--active');
+    evt.target.classList.add('img-filters__button--active');
+  }
+};
+
+const rerenderPictures = (data) => {
+  clearPictures();
+  renderPictureElement(data);
+};
+
+const debounceRerender = debounce(rerenderPictures);
+
+const filtersFunctions = {
+  'filter-default': (data) => {
+    debounceRerender(data);
   },
-  [Filters.RANDOM]: (data) => {
-    const randomIndexList = [];//создаем массив для наполнения
-    const max = Math.min(MAX_RANDOM_FILTER, data.length);//проверяем, что получаем достаточно элементов от сервера
-    while (randomIndexList.length < max) {
-      const index = getRandomIndex(0, data.length);
-      if (!randomIndexList.includes(index)) {//проверяем на дубли
-        randomIndexList.push(index);//подставляем в массив
-      }
+  'filter-random': (data) => {
+    const createPictureId = createRandomIdFromRangeGenerator(0, data.length - 1);
+    const randomPictures = [];
+    const min = Math.min(PICTURE_RANDOM_COUNT, data.length);
+    while (randomPictures.length < min) {
+      randomPictures.push(data[createPictureId()]);
     }
-    return randomIndexList.map((index) => data[index]);
+    debounceRerender(randomPictures);
   },
-  [Filters.DISCUSSED]: (data) => {
-    return [...data].sort((item1, item2) => {//проводим деструктцризацию и сортируем по убыванию
-      return item2.comments.length - item1.comments.length;
-    });
-  },
+  'filter-discussed': (data) => {
+    debounceRerender(
+      data
+        .slice()
+        .sort((pictureA, pictureB) => pictureB.comments.length - pictureA.comments.length)
+    );
+  }
 };
 
-const repaint = (event, filter, data) => {
-  const filteredData = FilterHandlers[filter](data);
-  const pictures = document.querySelectorAll('.picture');
-  pictures.forEach(item => item.remove());
-  renderPictureElement(filteredData);
-  const currentActiveFilter = filterForm.querySelector('.img-filters__button--active');
-  currentActiveFilter.classList.remove('img-filters__button--active');
-  event.target.classList.add('img-filters__button--active');
+const changeImgFilter = (posts) => {
+  filterForm.addEventListener('click', (evt) => {
+    filtersFunctions[evt.target.id](posts); //выбираем функцию по id кнопки
+    onFilterButtonClick(evt);
+  });
 };
 
-const debouncedRepaint = debounce(repaint);
-
-const initFilter = (data) => {
-  filtersElement.classList.remove('img-filters--inactive');
-  defaultButton.addEventListener('click', (event) => {
-    debouncedRepaint(event, Filters.DEFAULT, data);
-  });
-  randomButton.addEventListener('click', (event) => {
-    debouncedRepaint(event, Filters.RANDOM, data);
-  });
-  discussedButton.addEventListener('click', (event) => {
-    debouncedRepaint(event, Filters.DISCUSSED, data);
-  });
+const initFilter = (posts) => {
+  showFilters();
+  changeImgFilter(posts);
 };
 
 export {initFilter};
