@@ -51,9 +51,31 @@ function throttle (callback, delayBetweenFrames) {
   };
 }
 
+//функция для получения случайного числа
+function getRandomInteger (min, max) {
+  const lower = Math.ceil(Math.min(min, max));
+  const upper = Math.floor(Math.max(min,max));
+  const result = Math.random() * (upper - lower + 1) + lower;
+  return Math.floor(result);
+}
 
+function createRandomIdFromRangeGenerator (min, max) {
+  const previousValues = [];
+
+  return function () {
+    let currentValue = getRandomInteger(min, max);
+    if (previousValues.length >= (max - min + 1)) {
+      return null;
+    }
+    while (previousValues.includes(currentValue)) {
+      currentValue = getRandomInteger(min, max);
+    }
+    previousValues.push(currentValue);
+    return currentValue;
+  };
+}
 //Функция событие по клику на Esc
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
 
-export {showErrorMessage, isEscapeKey, throttle, debounce};
+export {showErrorMessage, isEscapeKey, throttle, debounce, createRandomIdFromRangeGenerator};
