@@ -10,11 +10,18 @@ const errorMessage = document
 
 const body = document.querySelector('body');
 
+function onBodyClick(evt) {
+  if (evt.target.closest('.success__inner') || (evt.target.closest('.error__inner'))) {
+    return;
+  }
+  hideMessage();
+}
+
 function hideMessage() {
   const existsElement = document.querySelector('.success') || document.querySelector('.error');
   existsElement.remove();
   document.removeEventListener('keydown', onDocumentKeydown);
-  document.body.removeEventListener('click', onBodyClick);
+  document.removeEventListener('click', onBodyClick);
 }
 
 function onCloseButtonClick() {
@@ -44,13 +51,6 @@ function showErrorMessage() {
   document.addEventListener('keydown', onDocumentKeydown);
   ErrorButton.addEventListener('click', hideMessage);
   document.addEventListener('click', onBodyClick);
-}
-
-function onBodyClick(evt) {
-  if (evt.target.closest('.success__inner') || (evt.target.closest('.error__inner'))) {
-    return;
-  }
-  hideMessage();
 }
 
 export { showSuccessMessage, showErrorMessage };

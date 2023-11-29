@@ -43,7 +43,7 @@ function toggleSubmitButton (isDisabled) {
 const pristine = new Pristine(imgUploadForm, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
-  errorTextClass: 'form__error'
+  errorTextClass: 'img-upload__field-wrapper--error'
 });
 
 const convertTags = function (tagString) {
@@ -160,7 +160,6 @@ function closeImgModal () {
   imgUploadOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
-  document.removeEventListener('click', imgUploadCancel);
 }
 
 imgUploadCancel.addEventListener('click', onCancelButtonClick);
