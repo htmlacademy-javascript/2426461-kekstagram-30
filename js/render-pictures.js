@@ -1,4 +1,3 @@
-
 import { showBigPicture } from './render-big-pictures.js';
 
 // Находим контейнер для изображений

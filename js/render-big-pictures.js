@@ -1,5 +1,6 @@
-import { isEscapeKey } from './utils.js';
 const COMMENTS_COUNT_SHOWN = 5;
+
+import { isEscapeKey } from './utils.js';
 
 // находим overlay
 const userModal = document.querySelector('.big-picture');
@@ -8,10 +9,10 @@ const bigPictureImg = document.querySelector('.big-picture__img img');
 const likesCount = document.querySelector('.likes-count');
 const socialCaption = document.querySelector('.social__caption');
 const bigPicture = document.querySelector('.big-picture');
-const commentsListElement = bigPicture.querySelector('.social__comments'); //находим список комментариев
-const commentCountElement = bigPicture.querySelector('.social__comment-shown-count');//находим кол-во комментариев
-const commentsLoaderElement = bigPicture.querySelector('.comments-loader');//находим лоадер
-const totalCommentsCountElement = bigPicture.querySelector('.social__comment-total-count');
+const commentsList = bigPicture.querySelector('.social__comments'); //находим список комментариев
+const commentCount = bigPicture.querySelector('.social__comment-shown-count');//находим кол-во комментариев
+const commentsLoader = bigPicture.querySelector('.comments-loader');//находим лоадер
+const totalCommentsCount = bigPicture.querySelector('.social__comment-total-count');
 const commentElement = document
   .querySelector('#comment')
   .content
@@ -34,10 +35,10 @@ const createComment = ({avatar, message, name}) => {
 const renderComments = () => {
   commentsCountShown += COMMENTS_COUNT_SHOWN;//показываем по 5 комментариев
   if (commentsCountShown >= comments.length) {//убираем лоадер, когда загрузил все комменты
-    commentsLoaderElement.classList.add('hidden');
+    commentsLoader.classList.add('hidden');
     commentsCountShown = comments.length;
   } else {
-    commentsLoaderElement.classList.remove('hidden');
+    commentsLoader.classList.remove('hidden');
   }
 
   const fragment = document.createDocumentFragment(); //создаем фрагмент
@@ -45,10 +46,10 @@ const renderComments = () => {
     const comment = createComment(comments[i]);
     fragment.append(comment);
   }
-  commentsListElement.innerHTML = ''; //очищаем список комментариев
-  commentsListElement.append(fragment);
-  commentCountElement.textContent = commentsCountShown;//обновляем значения
-  totalCommentsCountElement.textContent = comments.length;
+  commentsList.innerHTML = ''; //очищаем список комментариев
+  commentsList.append(fragment);
+  commentCount.textContent = commentsCountShown;//обновляем значения
+  totalCommentsCount.textContent = comments.length;
 };
 //записываем функцию в обработчки для отрисовки новых комментов
 const onCommentsLoaderClick = () => renderComments();
@@ -92,6 +93,6 @@ function showBigPicture(picture) {
 // закрываем полноэкранное изображение
 userModalClose.addEventListener('click', closeUserModal);
 // событие на клик по кнопке
-commentsLoaderElement.addEventListener('click', onCommentsLoaderClick);
+commentsLoader.addEventListener('click', onCommentsLoaderClick);
 
 export { showBigPicture };

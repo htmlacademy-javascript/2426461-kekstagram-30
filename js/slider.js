@@ -64,7 +64,7 @@ const effectToSliderOptions = {
 };
 
 const modal = document.querySelector('.img-upload');
-const imageElement = modal.querySelector('.img-upload__preview img');
+const image = modal.querySelector('.img-upload__preview img');
 const effects = modal.querySelector('.effects');
 const slider = modal.querySelector('.effect-level__slider');
 const sliderContainer = modal.querySelector('.img-upload__effect-level');
@@ -76,12 +76,12 @@ const isDefault = () => chosenEffect === styleOfEffect.DEFAULT;
 //подставляем стиль в наш элемент
 const setImageStyle = function () {
   if (isDefault()) {
-    imageElement.style.filter = null;
+    image.style.filter = null;
     return;
   }
   const { value } = effectLevelValue;//записываем значение по умолчанию
   const { style, unit } = effectToFilter[chosenEffect];//берем значение из объекта
-  imageElement.style.filter = `${style}(${value}${unit})`;//получаем например blur(3px)
+  image.style.filter = `${style}(${value}${unit})`;//получаем например blur(3px)
 };
 
 const showSlider = function () {

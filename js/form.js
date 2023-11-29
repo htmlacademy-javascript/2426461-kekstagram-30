@@ -1,8 +1,3 @@
-import { initEffect, resetEffect } from './slider.js';
-import { resetScale } from './scale.js';
-import { sendPictures } from './api.js';
-import { showSuccessMessage, showErrorMessage } from './message.js';
-
 const MAX_HASHTAG_COUNT = 5;
 const FILE_TYPES = ['jpg', 'jped', 'png'];
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -20,6 +15,11 @@ const submitButtonCaption = {
   SUBMITTING: 'Отправляю...',
   IDLE: 'Опубликовать',
 };
+
+import { initEffect, resetEffect } from './slider.js';
+import { resetScale } from './scale.js';
+import { sendPictures } from './api.js';
+import { showSuccessMessage, showErrorMessage } from './message.js';
 
 const imgUploadForm = document.querySelector('.img-upload__form');
 const imgUploadInput = imgUploadForm.querySelector('.img-upload__input');

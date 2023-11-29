@@ -1,7 +1,7 @@
+const PICTURE_RANDOM_COUNT = 10;
+
 import { renderPicture, container } from './render-pictures.js';
 import { debounce, createRandomIdFromRangeGenerator } from './utils.js';
-
-const PICTURE_RANDOM_COUNT = 10;
 
 const filterForm = document.querySelector('.img-filters__form');
 //убираем все фото
@@ -61,4 +61,4 @@ const initFilter = (posts) => {
   changeImgFilter(posts);
 };
 
-export {initFilter};
+export { initFilter };
