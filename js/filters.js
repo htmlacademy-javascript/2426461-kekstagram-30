@@ -1,7 +1,7 @@
-const PICTURE_RANDOM_COUNT = 10;
-
-import { renderPicture, container } from './render-pictures.js';
+import { renderPictures, container } from './render-pictures.js';
 import { debounce, createRandomIdFromRangeGenerator } from './utils.js';
+
+const PICTURE_RANDOM_COUNT = 10;
 
 const filterForm = document.querySelector('.img-filters__form');
 //убираем все фото
@@ -22,7 +22,7 @@ const onFilterButtonClick = (evt) => {
 
 const rerenderPictures = (data) => {
   clearPictures();
-  renderPicture(data);
+  renderPictures(data);
 };
 
 const debounceRerender = debounce(rerenderPictures);
