@@ -138,7 +138,6 @@ async function sendForm(formElement) {
     showErrorMessage();
   } finally {
     toggleSubmitButton(false);
-    submitButton.textContent = submitButtonCaption.IDLE;
   }
 }
 
