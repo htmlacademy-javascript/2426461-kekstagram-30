@@ -1,6 +1,6 @@
-const COMMENTS_COUNT_SHOWN = 5;
-
 import { isEscapeKey } from './utils.js';
+
+const COMMENTS_COUNT_SHOWN = 5;
 
 // находим overlay
 const userModal = document.querySelector('.big-picture');

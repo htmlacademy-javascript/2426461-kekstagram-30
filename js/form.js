@@ -1,3 +1,8 @@
+import { initEffect, resetEffect } from './slider.js';
+import { resetScale } from './scale.js';
+import { sendPictures } from './api.js';
+import { showSuccessMessage, showErrorMessage } from './message.js';
+
 const MAX_HASHTAG_COUNT = 5;
 const FILE_TYPES = ['jpg', 'jped', 'png'];
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -15,11 +20,6 @@ const submitButtonCaption = {
   SUBMITTING: 'Отправляю...',
   IDLE: 'Опубликовать',
 };
-
-import { initEffect, resetEffect } from './slider.js';
-import { resetScale } from './scale.js';
-import { sendPictures } from './api.js';
-import { showSuccessMessage, showErrorMessage } from './message.js';
 
 const imgUploadForm = document.querySelector('.img-upload__form');
 const imgUploadInput = imgUploadForm.querySelector('.img-upload__input');
@@ -52,7 +52,7 @@ const convertTags = function (tagString) {
     .filter((tag) => Boolean(tag.length)); //создаем новый массив без лишних пробелов
 };
 
-const isValidType = (file) => {
+const isTypeValid = (file) => {
   const fileName = file.name.toLowerCase();//приводим к нижнему регистру
   return FILE_TYPES.some((item) => fileName.endsWith(item));//проверяем что присланный файл заканчивается на нужные символы
 };
@@ -111,7 +111,7 @@ const onDocumentKeydown = (evt) => {
 
 const onFileInputChange = () => {
   const file = imgUploadInput.files[0];
-  if (file && isValidType(file)) {
+  if (file && isTypeValid(file)) {
     photoPreview.src = URL.createObjectURL(file);
     effectsPreviews.forEach((preview) => {
       preview.style.backgroundImage = `url('${photoPreview.src}')`;
@@ -136,7 +136,9 @@ async function sendForm(formElement) {
     showSuccessMessage();
   } catch {
     showErrorMessage();
+  } finally {
     toggleSubmitButton(false);
+    submitButton.textContent = submitButtonCaption.IDLE;
   }
 }
 

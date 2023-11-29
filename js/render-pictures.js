@@ -19,7 +19,7 @@ const createPicture = ({ url, description, likes, comments }) => {
   return picture;
 };
 // отрисовываем картинку
-const renderPicture = (pictures) => {
+const renderPictures = (pictures) => {
   // Создаем фрагмент
   const fragment = document.createDocumentFragment();
   //проходим по массиву
@@ -36,4 +36,4 @@ const renderPicture = (pictures) => {
   container.appendChild(fragment);
 };
 
-export { renderPicture, container };
+export { renderPictures, container };
