@@ -1,20 +1,17 @@
-import {renderPictureElement, container} from './render_pictures.js';
+const PICTURE_RANDOM_COUNT = 10;
+
+import { renderPicture, container } from './render-pictures.js';
 import { debounce, createRandomIdFromRangeGenerator } from './utils.js';
 
 const filterForm = document.querySelector('.img-filters__form');
-
-const PICTURE_RANDOM_COUNT = 10;
-
 //убираем все фото
 const clearPictures = () => {
   container.querySelectorAll('.picture').forEach((element) => element.remove());
 };
-
 //делаем фильтры видимыми
 const showFilters = () => {
   document.querySelector('.img-filters').classList.remove('img-filters--inactive');
 };
-
 //переключаем выделение кнопки, только если клик по кнопке
 const onFilterButtonClick = (evt) => {
   if (evt.target.classList.contains('img-filters__button')) {
@@ -25,7 +22,7 @@ const onFilterButtonClick = (evt) => {
 
 const rerenderPictures = (data) => {
   clearPictures();
-  renderPictureElement(data);
+  renderPicture(data);
 };
 
 const debounceRerender = debounce(rerenderPictures);
@@ -64,4 +61,4 @@ const initFilter = (posts) => {
   changeImgFilter(posts);
 };
 
-export {initFilter};
+export { initFilter };

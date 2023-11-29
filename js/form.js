@@ -1,8 +1,3 @@
-import { initEffect, resetEffect } from './slider.js';
-import { resetScale } from './scale.js';
-import { sendPictures } from './api.js';
-import { showSuccessMessage, showErrorMessage } from './message.js';
-
 const MAX_HASHTAG_COUNT = 5;
 const FILE_TYPES = ['jpg', 'jped', 'png'];
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -16,11 +11,15 @@ const errorText = {
   NOT_UNIQUE: 'Хэштеги должны быть уникальными',
   INVALID_PATTERN: 'Неправильный хэштег'
 };
-
-const SubmitButtonCaption = {
+const submitButtonCaption = {
   SUBMITTING: 'Отправляю...',
   IDLE: 'Опубликовать',
 };
+
+import { initEffect, resetEffect } from './slider.js';
+import { resetScale } from './scale.js';
+import { sendPictures } from './api.js';
+import { showSuccessMessage, showErrorMessage } from './message.js';
 
 const imgUploadForm = document.querySelector('.img-upload__form');
 const imgUploadInput = imgUploadForm.querySelector('.img-upload__input');
@@ -35,9 +34,9 @@ const effectsPreviews = document.querySelectorAll('.effects__preview');
 function toggleSubmitButton (isDisabled) {
   submitButton.disabled = isDisabled;
   if (isDisabled) {
-    submitButton.textContent = SubmitButtonCaption.SUBMITTING;
+    submitButton.textContent = submitButtonCaption.SUBMITTING;
   } else {
-    SubmitButtonCaption.textContent = SubmitButtonCaption.IDLE;
+    submitButtonCaption.textContent = submitButtonCaption.IDLE;
   }
 }
 
@@ -163,12 +162,7 @@ function closeImgModal () {
   document.removeEventListener('click', imgUploadCancel);
 }
 
-imgUploadCancel.addEventListener('click', () => {
-  onCancelButtonClick();
-});
-//
-imgUploadInput.addEventListener('change', () => {
-  onFileInputChange();
-});
+imgUploadCancel.addEventListener('click', onCancelButtonClick);
+imgUploadInput.addEventListener('change', onFileInputChange);
 imgUploadForm.addEventListener('submit', onFormSubmit);
 initEffect();

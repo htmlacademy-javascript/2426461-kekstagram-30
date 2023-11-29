@@ -1,36 +1,36 @@
 const SERVER_URL = 'https://30.javascript.pages.academy/kekstagram';
 
-const ServerRoute = {
+const serverRoute = {
   GET_DATA: '/data',
   SEND_DATA: '/',
 };
 
-const HttpMethod = {
+const httpMethod = {
   GET: 'GET',
   POST: 'POST',
 };
 
-const ErrorText = {
-  [HttpMethod.GET]: 'Не удалось загрузить данные',
-  [HttpMethod.POST]: 'Не удалось отправить данные',
+const errorText = {
+  [httpMethod.GET]: 'Не удалось загрузить данные',
+  [httpMethod.POST]: 'Не удалось отправить данные',
 };
 
-async function request (url, method = HttpMethod.GET, body = null) {
+async function request (url, method = httpMethod.GET, body = null) {
   const response = await fetch (url, {method, body});
   if (! response.ok) {
-    throw new Error(ErrorText[method]);//бросаем ошибку
+    throw new Error(errorText[method]);//бросаем ошибку
   }
   return response.json();//преобразовываем данные из строки в объект
 }
 
 async function loadPictures() {
-  return request(SERVER_URL + ServerRoute.GET_DATA);
+  return request(SERVER_URL + serverRoute.GET_DATA);
 }
 
 async function sendPictures(pictureData) {
   return request(
-    SERVER_URL + ServerRoute.SEND_DATA,
-    HttpMethod.POST,
+    SERVER_URL + serverRoute.SEND_DATA,
+    httpMethod.POST,
     pictureData,
   );
 }

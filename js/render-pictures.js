@@ -1,5 +1,4 @@
-
-import { showBigPicture } from './render_big_pictures.js';
+import { showBigPicture } from './render-big-pictures.js';
 
 // Находим контейнер для изображений
 const container = document.querySelector('.pictures');
@@ -8,33 +7,33 @@ const picturesTemplate = document.querySelector('#picture').content;
 // В темплейте находим нужный элемент
 const template = picturesTemplate.querySelector('.picture');
 // создаем картинку
-const createPictureElement = ({ url, description, likes, comments }) => {
+const createPicture = ({ url, description, likes, comments }) => {
   //клонируем темплейт
-  const pictureElement = template.cloneNode(true);
+  const picture = template.cloneNode(true);
   // вставляем данные в шаблон
-  pictureElement.querySelector('.picture__img').src = url;
-  pictureElement.querySelector('.picture__img').alt = description;
-  pictureElement.querySelector('.picture__likes').textContent = likes;
-  pictureElement.querySelector('.picture__comments').textContent = comments.length;
+  picture.querySelector('.picture__img').src = url;
+  picture.querySelector('.picture__img').alt = description;
+  picture.querySelector('.picture__likes').textContent = likes;
+  picture.querySelector('.picture__comments').textContent = comments.length;
 
-  return pictureElement;
+  return picture;
 };
 // отрисовываем картинку
-const renderPictureElement = (pictures) => {
+const renderPicture = (pictures) => {
   // Создаем фрагмент
   const fragment = document.createDocumentFragment();
   //проходим по массиву
   pictures.forEach((picture) => {
-    const pictureElement = createPictureElement(picture);
+    const newPicture = createPicture(picture);
     //создаем замыкание
-    pictureElement.addEventListener('click', (evt) => {
+    newPicture.addEventListener('click', (evt) => {
       evt.preventDefault();//
       showBigPicture(picture); // функция для отрисовки фото
     });
     // добавляем элемент в конец фрагмента
-    fragment.appendChild(pictureElement);
+    fragment.appendChild(newPicture);
   });
   container.appendChild(fragment);
 };
 
-export { renderPictureElement, container };
+export { renderPicture, container };
