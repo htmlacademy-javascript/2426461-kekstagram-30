@@ -2,18 +2,16 @@ import { isEscapeKey } from './utils.js';
 const COMMENTS_COUNT_SHOWN = 5;
 
 // находим overlay
-const userModalElement = document.querySelector('.big-picture');
-const userModalCloseElement = userModalElement.querySelector('.big-picture__cancel');
+const userModal = document.querySelector('.big-picture');
+const userModalClose = userModal.querySelector('.big-picture__cancel');
 const bigPictureImg = document.querySelector('.big-picture__img img');
 const likesCount = document.querySelector('.likes-count');
 const socialCaption = document.querySelector('.social__caption');
-
-const bigPictureElement = document.querySelector('.big-picture');
-const commentsListElement = bigPictureElement.querySelector('.social__comments'); //находим список комментариев
-const commentCountElement = bigPictureElement.querySelector('.social__comment-shown-count');//находим кол-во комментариев
-const commentsLoaderElement = bigPictureElement.querySelector('.comments-loader');//находим лоадер
-const totalCommentsCountElement = bigPictureElement.querySelector('.social__comment-total-count');
-
+const bigPicture = document.querySelector('.big-picture');
+const commentsListElement = bigPicture.querySelector('.social__comments'); //находим список комментариев
+const commentCountElement = bigPicture.querySelector('.social__comment-shown-count');//находим кол-во комментариев
+const commentsLoaderElement = bigPicture.querySelector('.comments-loader');//находим лоадер
+const totalCommentsCountElement = bigPicture.querySelector('.social__comment-total-count');
 const commentElement = document
   .querySelector('#comment')
   .content
@@ -63,17 +61,17 @@ const onDocumentKeydown = (evt) => {
 };
 // Функция открытия полноэкранного изображения
 function openUserModal () {
-  userModalElement.classList.remove('hidden');
+  userModal.classList.remove('hidden');
   document.body.classList.add('modal-open'); //убираем скролл
   document.addEventListener('keydown', onDocumentKeydown);
 }
 // Функция закрытия полноэкранного изображения
 function closeUserModal () {
   commentsCountShown = 0;//обнуляем счетчик комментариев
-  userModalElement.classList.add('hidden');
+  userModal.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
-  document.removeEventListener('click', userModalCloseElement);
+  document.removeEventListener('click', userModalClose);
 }
 
 function renderBigPicture({url, likes, description}) {
@@ -84,7 +82,7 @@ function renderBigPicture({url, likes, description}) {
 }
 
 function showBigPicture(picture) {
-  bigPictureElement.classList.remove('hidden');
+  bigPicture.classList.remove('hidden');
   openUserModal ();
   document.addEventListener('keydown', onDocumentKeydown);
   comments = picture.comments;
@@ -92,9 +90,7 @@ function showBigPicture(picture) {
   renderBigPicture(picture);
 }
 // закрываем полноэкранное изображение
-userModalCloseElement.addEventListener('click', () => {
-  closeUserModal();
-});
+userModalClose.addEventListener('click', closeUserModal);
 // событие на клик по кнопке
 commentsLoaderElement.addEventListener('click', onCommentsLoaderClick);
 

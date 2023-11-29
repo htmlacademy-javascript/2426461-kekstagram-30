@@ -1,4 +1,4 @@
-const Effect = {
+const styleOfEffect = {
   DEFAULT: 'none',
   CHROME: 'chrome',
   SEPIA: 'sepia',
@@ -8,71 +8,71 @@ const Effect = {
 };
 
 const effectToFilter = {
-  [Effect.CHROME]: {
+  [styleOfEffect.CHROME]: {
     style: 'grayscale',
     unit: '',
   },
-  [Effect.SEPIA]: {
+  [styleOfEffect.SEPIA]: {
     style: 'sepia',
     unit: '',
   },
-  [Effect.MARVIN]: {
+  [styleOfEffect.MARVIN]: {
     style: 'invert',
     unit: '%'
   },
-  [Effect.PHOBOS]: {
+  [styleOfEffect.PHOBOS]: {
     style: 'blur',
     unit: 'px'
   },
-  [Effect.HEAT]: {
+  [styleOfEffect.HEAT]: {
     style: 'brightness',
     unit: '',
   },
 };
 
 const effectToSliderOptions = {
-  [Effect.DEFAULT]: {
+  [styleOfEffect.DEFAULT]: {
     min: 0,
     max: 100,
     step: 1,
   },
-  [Effect.CHROME]: {
+  [styleOfEffect.CHROME]: {
     min: 0,
     max: 1,
     step: 0.1,
   },
-  [Effect.SEPIA]: {
+  [styleOfEffect.SEPIA]: {
     min: 0,
     max: 1,
     step: 0.1,
   },
-  [Effect.MARVIN]: {
+  [styleOfEffect.MARVIN]: {
     min: 0,
     max: 100,
     step: 1,
   },
-  [Effect.PHOBOS]: {
+  [styleOfEffect.PHOBOS]: {
     min: 0,
     max: 3,
     step: 0.1,
   },
-  [Effect.HEAT]: {
+  [styleOfEffect.HEAT]: {
     min: 1,
     max: 3,
     step: 0.1,
   },
 };
 
-const modalElement = document.querySelector('.img-upload');
-const imageElement = modalElement.querySelector('.img-upload__preview img');
-const effectsElement = modalElement.querySelector('.effects');
-const sliderElement = modalElement.querySelector('.effect-level__slider');
-const sliderContainerElement = modalElement.querySelector('.img-upload__effect-level');
-const effectLevelValue = modalElement.querySelector('.effect-level__value');
+const modal = document.querySelector('.img-upload');
+const imageElement = modal.querySelector('.img-upload__preview img');
+const effects = modal.querySelector('.effects');
+const slider = modal.querySelector('.effect-level__slider');
+const sliderContainer = modal.querySelector('.img-upload__effect-level');
+const effectLevelValue = modal.querySelector('.effect-level__value');
 //записываем в начальное значение - значение по умолчанию
-let chosenEffect = Effect.DEFAULT;
+let chosenEffect = styleOfEffect.DEFAULT;
 //функция которая позволяет определить эффект по умолчанию
-const isDefault = () => chosenEffect === Effect.DEFAULT;
+const isDefault = () => chosenEffect === styleOfEffect.DEFAULT;
 //подставляем стиль в наш элемент
 const setImageStyle = function () {
   if (isDefault()) {
@@ -85,20 +85,20 @@ const setImageStyle = function () {
 };
 
 const showSlider = function () {
-  sliderContainerElement.classList.remove('hidden');
+  sliderContainer.classList.remove('hidden');
 };
 
 const hideSlider = function () {
-  sliderContainerElement.classList.add('hidden');
+  sliderContainer.classList.add('hidden');
 };
 
 const onSliderUpdate = function () {
-  effectLevelValue.value = sliderElement.noUiSlider.get();//получаем значение из слайдера
+  effectLevelValue.value = slider.noUiSlider.get();//получаем значение из слайдера
   setImageStyle();
 };
 //создаем slider
 const createSlider = function ({min, max, step}) {
-  noUiSlider.create(sliderElement, {
+  noUiSlider.create(slider, {
     range: { min, max },
     step,
     start: max,
@@ -108,12 +108,12 @@ const createSlider = function ({min, max, step}) {
       from: (value) => Number(value),
     }
   });
-  sliderElement.noUiSlider.on('update', onSliderUpdate);
+  slider.noUiSlider.on('update', onSliderUpdate);
   hideSlider();
 };
 //обновляем значения слайдера при переключении
 const updateSlider = function ({min, max, step}) {
-  sliderElement.noUiSlider.updateOptions({
+  slider.noUiSlider.updateOptions({
     range: { min, max },
     step,
     start: max,
@@ -137,7 +137,7 @@ const setEffect = function (effect) {
 };
 // сбрасываем эффект на значение по умолчанию
 const resetEffect = function () {
-  setEffect(Effect.DEFAULT);
+  setEffect(styleOfEffect.DEFAULT);
 };
 
 const onEffectChange = function (evt) {
@@ -146,7 +146,7 @@ const onEffectChange = function (evt) {
 //инициализируем код
 const initEffect = function () {
   createSlider(effectToSliderOptions[chosenEffect]);
-  effectsElement.addEventListener('change', onEffectChange);
+  effects.addEventListener('change', onEffectChange);
 };
 
 export { initEffect, resetEffect };

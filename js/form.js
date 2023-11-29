@@ -16,8 +16,7 @@ const errorText = {
   NOT_UNIQUE: 'Хэштеги должны быть уникальными',
   INVALID_PATTERN: 'Неправильный хэштег'
 };
-
-const SubmitButtonCaption = {
+const submitButtonCaption = {
   SUBMITTING: 'Отправляю...',
   IDLE: 'Опубликовать',
 };
@@ -35,9 +34,9 @@ const effectsPreviews = document.querySelectorAll('.effects__preview');
 function toggleSubmitButton (isDisabled) {
   submitButton.disabled = isDisabled;
   if (isDisabled) {
-    submitButton.textContent = SubmitButtonCaption.SUBMITTING;
+    submitButton.textContent = submitButtonCaption.SUBMITTING;
   } else {
-    SubmitButtonCaption.textContent = SubmitButtonCaption.IDLE;
+    submitButtonCaption.textContent = submitButtonCaption.IDLE;
   }
 }
 
@@ -163,12 +162,7 @@ function closeImgModal () {
   document.removeEventListener('click', imgUploadCancel);
 }
 
-imgUploadCancel.addEventListener('click', () => {
-  onCancelButtonClick();
-});
-//
-imgUploadInput.addEventListener('change', () => {
-  onFileInputChange();
-});
+imgUploadCancel.addEventListener('click', onCancelButtonClick);
+imgUploadInput.addEventListener('change', onFileInputChange);
 imgUploadForm.addEventListener('submit', onFormSubmit);
 initEffect();
