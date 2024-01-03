@@ -6,19 +6,19 @@ import { showSuccessMessage, showErrorMessage } from './message.js';
 const MAX_HASHTAG_COUNT = 5;
 const FILE_TYPES = ['jpg', 'jped', 'png'];
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
-/*регулярное выражение:
-  начинаеется с #,
-  содержит буквы и цифры,
-  имеет длинну 19 символов,
-  не зависит от регистра */
+/*regular expression:
+  starts with #,
+  contains letters and numbers,
+  has a length of 19 characters,
+  case insensitive*/
 const errorText = {
-  INVALID_COUNT: `Максимум ${MAX_HASHTAG_COUNT} хэштегов`,
-  NOT_UNIQUE: 'Хэштеги должны быть уникальными',
-  INVALID_PATTERN: 'Неправильный хэштег'
+  INVALID_COUNT: `maximum ${MAX_HASHTAG_COUNT} hashtags`,
+  NOT_UNIQUE: 'Hashtags must be unique',
+  INVALID_PATTERN: 'Wrong hashtag'
 };
 const submitButtonCaption = {
-  SUBMITTING: 'Отправляю...',
-  IDLE: 'Опубликовать',
+  SUBMITTING: 'Sending...',
+  IDLE: 'Publish',
 };
 
 const imgUploadForm = document.querySelector('.img-upload__form');
@@ -47,27 +47,27 @@ const pristine = new Pristine(imgUploadForm, {
 });
 
 const convertTags = function (tagString) {
-  return tagString.trim() //удаляем проблемы с начала и с конца
-    .split(' ') //создаем массив с разделителем по пробелу
-    .filter((tag) => Boolean(tag.length)); //создаем новый массив без лишних пробелов
+  return tagString.trim() //we remove problems from the beginning and from the end
+    .split(' ') //create a space-delimited array
+    .filter((tag) => Boolean(tag.length)); //create a new array without extra spaces
 };
 
 const isTypeValid = (file) => {
-  const fileName = file.name.toLowerCase();//приводим к нижнему регистру
-  return FILE_TYPES.some((item) => fileName.endsWith(item));//проверяем что присланный файл заканчивается на нужные символы
+  const fileName = file.name.toLowerCase();//convert to lower case
+  return FILE_TYPES.some((item) => fileName.endsWith(item));//check that the sent file ends with the required characters
 };
-//хэштег соответствует регулярному выражению
+//hashtag matches regular expression
 const isTagValid = function (value) {
   return convertTags(value).every((tag) => VALID_SYMBOLS.test(tag));
 };
-//кол-во хэштегов не больше 5
+//number of hashtags no more than 5
 const isCountValid = function (value) {
   return convertTags(value).length <= MAX_HASHTAG_COUNT;
 };
-// хэштег уникален
+// Hashtag is unique
 const isTagUnique = function (value) {
-  const lowerCaseTags = convertTags(value).map((tag) => tag.toLowerCase());//приводим все к нижнему регистру
-  return lowerCaseTags.length === new Set (lowerCaseTags).size;//сравниваем длинну массива с размером Set
+  const lowerCaseTags = convertTags(value).map((tag) => tag.toLowerCase());
+  return lowerCaseTags.length === new Set (lowerCaseTags).size;//compare the length of the array with the size of Set
 };
 
 pristine.addValidator (
@@ -93,7 +93,7 @@ pristine.addValidator (
   3,
   true
 );
-//фокус не на поле ввода
+
 const isTextFieldFocused = () =>
   document.activeElement === hashtagField ||
   document.activeElement === commentField;
@@ -148,15 +148,15 @@ const onFormSubmit = (evt) => {
 
 function openImgModal () {
   imgUploadOverlay.classList.remove('hidden');
-  document.body.classList.add('modal-open'); //убираем скролл
+  document.body.classList.add('modal-open'); //remove scroll
   document.addEventListener('keydown', onDocumentKeydown);
 }
 
 function closeImgModal () {
-  imgUploadForm.reset();//сбрасываем все значения формы
-  pristine.reset();//удаляем слушатели Пристин
+  imgUploadForm.reset();//reset all form values
+  pristine.reset();//remove Pristine listeners
   resetEffect(); //
-  resetScale(); //обнуляем Scale
+  resetScale(); //reset Scale
   imgUploadOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);

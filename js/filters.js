@@ -4,15 +4,15 @@ import { debounce, createRandomIdFromRangeGenerator } from './utils.js';
 const PICTURE_RANDOM_COUNT = 10;
 
 const filterForm = document.querySelector('.img-filters__form');
-//убираем все фото
+//clear all photos
 const clearPictures = () => {
   container.querySelectorAll('.picture').forEach((element) => element.remove());
 };
-//делаем фильтры видимыми
+//make filter visible
 const showFilters = () => {
   document.querySelector('.img-filters').classList.remove('img-filters--inactive');
 };
-//переключаем выделение кнопки, только если клик по кнопке
+//toggle button highlighting only if the button is clicked
 const onFilterButtonClick = (evt) => {
   if (evt.target.classList.contains('img-filters__button')) {
     document.querySelector('.img-filters__button--active').classList.remove('img-filters__button--active');
@@ -51,7 +51,7 @@ const filtersFunctions = {
 
 const changeImgFilter = (posts) => {
   filterForm.addEventListener('click', (evt) => {
-    filtersFunctions[evt.target.id](posts); //выбираем функцию по id кнопки
+    filtersFunctions[evt.target.id](posts); //select a function by button id
     onFilterButtonClick(evt);
   });
 };
