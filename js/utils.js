@@ -1,4 +1,4 @@
-const REMOVE_MESSAGE_TIMEOUT = 5000;//5 сек
+const REMOVE_MESSAGE_TIMEOUT = 5000;//5 sec
 const errorMessageTemplate = document
   .querySelector('#data-error')
   .content
@@ -13,37 +13,37 @@ function showErrorMessage() {
 }
 
 function debounce (callback, timeoutDelay = 500) {
-  // Используем замыкания, чтобы id таймаута у нас навсегда приклеился
-  // к возвращаемой функции с setTimeout, тогда мы его сможем перезаписывать
+  // We use closures so that the timeout id is permanently stuck to us
+  // to the returned function with setTimeout, then we can overwrite it
   let timeoutId;
 
   return (...rest) => {
-    // Перед каждым новым вызовом удаляем предыдущий таймаут,
-    // чтобы они не накапливались
+    // Before each new call, we delete the previous timeout,
+    // so they don't accumulate
     clearTimeout(timeoutId);
 
-    // Затем устанавливаем новый таймаут с вызовом колбэка на ту же задержку
+    // Then we set a new timeout with a callback call for the same delay
     timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
 
-    // Таким образом цикл «поставить таймаут - удалить таймаут» будет выполняться,
-    // пока действие совершается чаще, чем переданная задержка timeoutDelay
+    // Thus, the cycle “set timeout - remove timeout” will be executed,
+    // as long as the action is performed more often than the passed timeoutDelay
   };
 }
 
 function throttle (callback, delayBetweenFrames) {
-  // Используем замыкания, чтобы время "последнего кадра" навсегда приклеилось
-  // к возвращаемой функции с условием, тогда мы его сможем перезаписывать
+  // We use closures to make the “last frame” time stick forever
+  // to the returned function with a condition, then we can overwrite it
   let lastTime = 0;
 
   return (...rest) => {
-    // Получаем текущую дату в миллисекундах,
-    // чтобы можно было в дальнейшем
-    // вычислять разницу между кадрами
+    // Пget the current date in milliseconds,
+    // so that it will be possible in the future
+    // calculate the difference between frames
     const now = new Date();
 
-    // Если время между кадрами больше задержки,
-    // вызываем наш колбэк и перезаписываем lastTime
-    // временем "последнего кадра"
+    // If the time between frames is greater than the delay,
+    // call our callback and overwrite lastTime
+    // "last frame" time
     if (now - lastTime >= delayBetweenFrames) {
       callback.apply(this, rest);
       lastTime = now;
@@ -51,7 +51,7 @@ function throttle (callback, delayBetweenFrames) {
   };
 }
 
-//функция для получения случайного числа
+//function to get a random number
 function getRandomInteger (min, max) {
   const lower = Math.ceil(Math.min(min, max));
   const upper = Math.floor(Math.max(min,max));
@@ -74,7 +74,7 @@ function createRandomIdFromRangeGenerator (min, max) {
     return currentValue;
   };
 }
-//Функция событие по клику на Esc
+//Function event on click on Esc
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
 

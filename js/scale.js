@@ -10,7 +10,7 @@ const scaleInput = modal.querySelector('.scale__control--value');
 const image = modal.querySelector('.img-upload__preview img');
 
 const scaleImage = function (value) {
-  image.style.transform = `scale(${value / 100})`;//масштабируем scale
+  image.style.transform = `scale(${value / 100})`;//scale
   scaleInput.value = `${value}%`;
 };
 

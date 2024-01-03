@@ -69,11 +69,11 @@ const effects = modal.querySelector('.effects');
 const slider = modal.querySelector('.effect-level__slider');
 const sliderContainer = modal.querySelector('.img-upload__effect-level');
 const effectLevelValue = modal.querySelector('.effect-level__value');
-//записываем в начальное значение - значение по умолчанию
+//write to the initial value - the default value
 let chosenEffect = styleOfEffect.DEFAULT;
-//функция которая позволяет определить эффект по умолчанию
+//фfunction that allows you to define the default effect
 const isDefault = () => chosenEffect === styleOfEffect.DEFAULT;
-//подставляем стиль в наш элемент
+//we substitute the style into our element
 const setImageStyle = function () {
   if (isDefault()) {
     image.style.filter = null;
@@ -93,10 +93,10 @@ const hideSlider = function () {
 };
 
 const onSliderUpdate = function () {
-  effectLevelValue.value = slider.noUiSlider.get();//получаем значение из слайдера
+  effectLevelValue.value = slider.noUiSlider.get();//get the value from the slider
   setImageStyle();
 };
-//создаем slider
+//create slider
 const createSlider = function ({min, max, step}) {
   noUiSlider.create(slider, {
     range: { min, max },
@@ -104,14 +104,15 @@ const createSlider = function ({min, max, step}) {
     start: max,
     connect: 'lower',
     format: {
-      to: (value) => Number(value),//преобразовываем значение из строки в число
+      to: (value) => Number(value),//convert the value from a string to a number
       from: (value) => Number(value),
     }
   });
   slider.noUiSlider.on('update', onSliderUpdate);
   hideSlider();
 };
-//обновляем значения слайдера при переключении
+
+//update slider values when switching
 const updateSlider = function ({min, max, step}) {
   slider.noUiSlider.updateOptions({
     range: { min, max },
@@ -129,13 +130,11 @@ const setSlider = function () {
   }
 };
 
-// устаниваливаем эффект
 const setEffect = function (effect) {
   chosenEffect = effect;
   setSlider();
   setImageStyle();
 };
-// сбрасываем эффект на значение по умолчанию
 const resetEffect = function () {
   setEffect(styleOfEffect.DEFAULT);
 };
@@ -143,7 +142,7 @@ const resetEffect = function () {
 const onEffectChange = function (evt) {
   setEffect(evt.target.value);
 };
-//инициализируем код
+
 const initEffect = function () {
   createSlider(effectToSliderOptions[chosenEffect]);
   effects.addEventListener('change', onEffectChange);

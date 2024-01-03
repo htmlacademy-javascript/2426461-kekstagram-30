@@ -2,26 +2,25 @@ import { isEscapeKey } from './utils.js';
 
 const COMMENTS_COUNT_SHOWN = 5;
 
-// находим overlay
 const userModal = document.querySelector('.big-picture');
 const userModalClose = userModal.querySelector('.big-picture__cancel');
 const bigPictureImg = document.querySelector('.big-picture__img img');
 const likesCount = document.querySelector('.likes-count');
 const socialCaption = document.querySelector('.social__caption');
 const bigPicture = document.querySelector('.big-picture');
-const commentsList = bigPicture.querySelector('.social__comments'); //находим список комментариев
-const commentCount = bigPicture.querySelector('.social__comment-shown-count');//находим кол-во комментариев
-const commentsLoader = bigPicture.querySelector('.comments-loader');//находим лоадер
+const commentsList = bigPicture.querySelector('.social__comments');
+const commentCount = bigPicture.querySelector('.social__comment-shown-count');
+const commentsLoader = bigPicture.querySelector('.comments-loader');
 const totalCommentsCount = bigPicture.querySelector('.social__comment-total-count');
 const commentElement = document
   .querySelector('#comment')
   .content
-  .querySelector('.social__comment');//находим темплейт
+  .querySelector('.social__comment');
 
 let commentsCountShown = 0;
-let comments = [];// массив для хранения всех комментов
+let comments = [];// an array to store all comments
 
-//Функция для создания одного комментария
+//Function for creating one comment
 const createComment = ({avatar, message, name}) => {
   const newComment = commentElement.cloneNode(true);
   newComment.querySelector('.social__picture').src = avatar;
@@ -31,44 +30,44 @@ const createComment = ({avatar, message, name}) => {
   return newComment;
 };
 
-//Функция отрисовки комментов
+//Comment drawing function
 const renderComments = () => {
-  commentsCountShown += COMMENTS_COUNT_SHOWN;//показываем по 5 комментариев
-  if (commentsCountShown >= comments.length) {//убираем лоадер, когда загрузил все комменты
+  commentsCountShown += COMMENTS_COUNT_SHOWN;//show 5 comments each
+  if (commentsCountShown >= comments.length) {//remove the loader when all comments have loaded
     commentsLoader.classList.add('hidden');
     commentsCountShown = comments.length;
   } else {
     commentsLoader.classList.remove('hidden');
   }
 
-  const fragment = document.createDocumentFragment(); //создаем фрагмент
-  for (let i = 0; i < commentsCountShown; i++) {//отрисовываем комменты порционно
+  const fragment = document.createDocumentFragment(); //create a fragment
+  for (let i = 0; i < commentsCountShown; i++) {//draw comments in portions
     const comment = createComment(comments[i]);
     fragment.append(comment);
   }
-  commentsList.innerHTML = ''; //очищаем список комментариев
+  commentsList.innerHTML = ''; //clearing the list of comments
   commentsList.append(fragment);
-  commentCount.textContent = commentsCountShown;//обновляем значения
+  commentCount.textContent = commentsCountShown;//update the values
   totalCommentsCount.textContent = comments.length;
 };
-//записываем функцию в обработчки для отрисовки новых комментов
+//write a function in the handlers for rendering new comments
 const onCommentsLoaderClick = () => renderComments();
-// записываем функцию в обработчик
+// write the function into the handler
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
     closeUserModal();
   }
 };
-// Функция открытия полноэкранного изображения
+// Function to open full screen image
 function openUserModal () {
   userModal.classList.remove('hidden');
-  document.body.classList.add('modal-open'); //убираем скролл
+  document.body.classList.add('modal-open'); //remove scroll
   document.addEventListener('keydown', onDocumentKeydown);
 }
-// Функция закрытия полноэкранного изображения
+// Function to close full screen image
 function closeUserModal () {
-  commentsCountShown = 0;//обнуляем счетчик комментариев
+  commentsCountShown = 0;//reset the comment counter
   userModal.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
@@ -90,9 +89,9 @@ function showBigPicture(picture) {
   renderComments();
   renderBigPicture(picture);
 }
-// закрываем полноэкранное изображение
+// close the full screen image
 userModalClose.addEventListener('click', closeUserModal);
-// событие на клик по кнопке
+// button click event
 commentsLoader.addEventListener('click', onCommentsLoaderClick);
 
 export { showBigPicture };
