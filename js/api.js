@@ -1,4 +1,4 @@
-const SERVER_URL = 'https://30.javascript.pages.academy/kekstagram';
+const SERVER_URL = 'https://30.javascript.htmlacademy.pro/kekstagram';
 
 const serverRoute = {
   GET_DATA: '/data',
@@ -11,16 +11,16 @@ const httpMethod = {
 };
 
 const errorText = {
-  [httpMethod.GET]: 'Не удалось загрузить данные',
-  [httpMethod.POST]: 'Не удалось отправить данные',
+  [httpMethod.GET]: 'Failed to load data',
+  [httpMethod.POST]: 'Failed to send data',
 };
 
 async function request (url, method = httpMethod.GET, body = null) {
   const response = await fetch (url, {method, body});
   if (! response.ok) {
-    throw new Error(errorText[method]);//бросаем ошибку
+    throw new Error(errorText[method]);//throw an error
   }
-  return response.json();//преобразовываем данные из строки в объект
+  return response.json();//convert data from string to object
 }
 
 async function loadPictures() {

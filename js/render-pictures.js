@@ -2,15 +2,12 @@ import { showBigPicture } from './render-big-pictures.js';
 
 // Находим контейнер для изображений
 const container = document.querySelector('.pictures');
-// Находим фрагмент с содержимым темплейта
 const picturesTemplate = document.querySelector('#picture').content;
-// В темплейте находим нужный элемент
 const template = picturesTemplate.querySelector('.picture');
-// создаем картинку
 const createPicture = ({ url, description, likes, comments }) => {
-  //клонируем темплейт
+  //clone the template
   const picture = template.cloneNode(true);
-  // вставляем данные в шаблон
+  // insert data into template
   picture.querySelector('.picture__img').src = url;
   picture.querySelector('.picture__img').alt = description;
   picture.querySelector('.picture__likes').textContent = likes;
@@ -18,19 +15,19 @@ const createPicture = ({ url, description, likes, comments }) => {
 
   return picture;
 };
-// отрисовываем картинку
+// draw a picture
 const renderPictures = (pictures) => {
-  // Создаем фрагмент
+  //Create a fragment
   const fragment = document.createDocumentFragment();
-  //проходим по массиву
+  //go through the array
   pictures.forEach((picture) => {
     const newPicture = createPicture(picture);
-    //создаем замыкание
+    //create a closure
     newPicture.addEventListener('click', (evt) => {
       evt.preventDefault();//
-      showBigPicture(picture); // функция для отрисовки фото
+      showBigPicture(picture); // function for drawing photos
     });
-    // добавляем элемент в конец фрагмента
+    // add an element to the end of the fragment
     fragment.appendChild(newPicture);
   });
   container.appendChild(fragment);
